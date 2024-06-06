@@ -62,8 +62,11 @@ export class SimplePhone {
             }
         };
 
-        //Connecting via non-secure websocket for early development work
-        this.simpleUser = new SimpleUser(`ws://${this.server}:5066`, simpleUserOptions);
+        if(window.location.protocol === 'https:') {
+            this.simpleUser = new SimpleUser(`wss://${this.server}:7443`, simpleUserOptions);
+        } else {
+            this.simpleUser = new SimpleUser(`ws://${this.server}:5066`, simpleUserOptions);
+        }
         await this.simpleUser.connect();
         return await this.simpleUser?.register();
     }
